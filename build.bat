@@ -1,0 +1,1 @@
+pyinstaller --onefile --windowed --name "Twitch And Youtube Chat" --icon=icon.ico main.py
