@@ -39,6 +39,7 @@ class MultiPlatformChat:
     def __init__(self):
         self.root = tk.Tk()
         self.icon_images = {
+            "prime": ImageTk.PhotoImage(Image.open(io.BytesIO(requests.get("https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3").content)).resize((16, 16))),
             "broadcaster": ImageTk.PhotoImage(Image.open(io.BytesIO(requests.get("https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3").content)).resize((16, 16))),
             "moderator": ImageTk.PhotoImage(Image.open(io.BytesIO(requests.get("https://static-cdn.jtvnw.net/badges/v1/3267646d-33f0-4b17-b3df-f923a41db1d0/3").content)).resize((16, 16))),
             "vip": ImageTk.PhotoImage(Image.open(io.BytesIO(requests.get("https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3").content)).resize((16, 16))),
@@ -121,6 +122,7 @@ class MultiPlatformChat:
         self.chat_display.tag_configure("donation", background="#ffd700", foreground="#000", font=('Comic Sans MS', 15, 'bold'))
         self.chat_display.tag_configure("highlight", background="#2a402a")
         self.chat_display.tag_configure("subscriber", foreground="#00ff00")
+        self.chat_display.tag_configure("prime", foreground="#00ff00")
         self.chat_display.tag_configure("moderator", foreground="#00bfff")
         self.chat_display.tag_configure("vip", foreground="#ff69b4")
         self.chat_display.tag_configure("broadcaster", foreground="#ff0000")
@@ -321,7 +323,7 @@ class MultiPlatformChat:
         inserted_icon = False
 
         if platform == 'twitch' and badges:
-            priority = ["broadcaster", "moderator", "vip", "subscriber", "subtember"]
+            priority = ["broadcaster", "moderator", "vip", "subscriber", "prime", "subtember"]
             seen = set()
             for badge_name, _ in badges:
                 if badge_name in priority and badge_name in self.icon_images and badge_name not in seen:
@@ -341,6 +343,8 @@ class MultiPlatformChat:
                 username_style = "vip"
             elif any(badge[0] == 'subscriber' for badge in badges or []):
                 username_style = "subscriber"
+            elif any(badge[0] == 'prime' for badge in badges or []):
+                username_style = "prime"
             elif any(badge[0] == 'premium' for badge in badges or []):  
                 username_style = "vip" 
 
